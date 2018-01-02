@@ -2,129 +2,129 @@
   {
     "id": 0,
     "name": "Frieda",
-    "picture": "images/scottish-terrier.jpeg",
-    "age": 3,
-    "breed": "Scottish Terrier",
-    "location": "Lisco, Alabama"
+    "picture": "images/track-heart.jpg",
+    "age": 33,
+    "dataType": "Heart rate",
+    "location": "Luleå, Sweden"
   },
   {
     "id": 1,
     "name": "Gina",
-    "picture": "images/scottish-terrier.jpeg",
-    "age": 3,
-    "breed": "Scottish Terrier",
-    "location": "Tooleville, West Virginia"
+    "picture": "images/track-heart.jpg",
+    "age": 23,
+    "dataType": "Heart rate",
+    "location": "Stockholm, Sweden"
   },
   {
     "id": 2,
     "name": "Collins",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 2,
-    "breed": "French Bulldog",
-    "location": "Freeburn, Idaho"
+    "picture": "images/track-sleep.jpg",
+    "age": 22,
+    "dataType": "Sleep",
+    "location": "Eindhoven, Netherlands"
   },
   {
     "id": 3,
     "name": "Melissa",
-    "picture": "images/boxer.jpeg",
-    "age": 2,
-    "breed": "Boxer",
-    "location": "Camas, Pennsylvania"
+    "picture": "images/track-run.jpg",
+    "age": 23,
+    "dataType": "Running",
+    "location": "Paris, France"
   },
   {
     "id": 4,
     "name": "Jeanine",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 2,
-    "breed": "French Bulldog",
-    "location": "Gerber, South Dakota"
+    "picture": "images/track-sleep.jpg",
+    "age": 21,
+    "dataType": "Sleep",
+    "location": "Munich, Germany"
   },
   {
     "id": 5,
     "name": "Elvia",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 3,
-    "breed": "French Bulldog",
-    "location": "Innsbrook, Illinois"
+    "picture": "images/track-sleep.jpg",
+    "age": 43,
+    "dataType": "Sleep",
+    "location": "Guadalajara, Spain"
   },
   {
     "id": 6,
     "name": "Latisha",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 3,
-    "breed": "Golden Retriever",
-    "location": "Soudan, Louisiana"
+    "picture": "images/track-weight.jpg",
+    "age": 63,
+    "dataType": "Weight",
+    "location": "London, England"
   },
   {
     "id": 7,
     "name": "Coleman",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 3,
-    "breed": "Golden Retriever",
-    "location": "Jacksonwald, Palau"
+    "picture": "images/track-weight.jpg",
+    "age": 53,
+    "dataType": "Weight",
+    "location": "Rome, Italy"
   },
   {
     "id": 8,
     "name": "Nichole",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 2,
-    "breed": "French Bulldog",
-    "location": "Honolulu, Hawaii"
+    "picture": "images/track-sleep.jpg",
+    "age": 28,
+    "dataType": "Sleep",
+    "location": "Amsterdam, Netherlands"
   },
   {
     "id": 9,
     "name": "Fran",
-    "picture": "images/boxer.jpeg",
-    "age": 3,
-    "breed": "Boxer",
-    "location": "Matheny, Utah"
+    "picture": "images/track-run.jpg",
+    "age": 30,
+    "dataType": "Running",
+    "location": "London, England"
   },
   {
     "id": 10,
     "name": "Leonor",
-    "picture": "images/boxer.jpeg",
-    "age": 2,
-    "breed": "Boxer",
-    "location": "Tyhee, Indiana"
+    "picture": "images/track-run.jpg",
+    "age": 21,
+    "dataType": "Running",
+    "location": "Amsterdam, Netherlands"
   },
   {
     "id": 11,
     "name": "Dean",
-    "picture": "images/scottish-terrier.jpeg",
-    "age": 3,
-    "breed": "Scottish Terrier",
-    "location": "Windsor, Montana"
+    "picture": "images/track-heart.jpg",
+    "age": 53,
+    "dataType": "Heart rate",
+    "location": "Barcelona, Spain"
   },
   {
     "id": 12,
     "name": "Stevenson",
-    "picture": "images/french-bulldog.jpeg",
-    "age": 3,
-    "breed": "French Bulldog",
-    "location": "Kingstowne, Nevada"
+    "picture": "images/track-sleep.jpg",
+    "age": 34,
+    "dataType": "Sleep",
+    "location": "Madrid, Spain"
   },
   {
     "id": 13,
     "name": "Kristina",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 4,
-    "breed": "Golden Retriever",
-    "location": "Sultana, Massachusetts"
+    "picture": "images/track-weight.jpg",
+    "age": 42,
+    "dataType": "Weight",
+    "location": "Eindhoven, Netherlands"
   },
   {
     "id": 14,
     "name": "Ethel",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 2,
-    "breed": "Golden Retriever",
-    "location": "Broadlands, Oregon"
+    "picture": "images/track-weight.jpg",
+    "age": 62,
+    "dataType": "Weight",
+    "location": "Stockholm, Sweden"
   },
   {
     "id": 15,
     "name": "Terry",
-    "picture": "images/golden-retriever.jpeg",
-    "age": 2,
-    "breed": "Golden Retriever",
-    "location": "Dawn, Wisconsin"
+    "picture": "images/track-weight.jpg",
+    "age": 25,
+    "dataType": "Weight",
+    "location": "Luleå, Sweden"
   }
 ]
