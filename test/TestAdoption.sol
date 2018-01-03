@@ -5,7 +5,7 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/Adoption.sol";
 
 contract TestAdoption {
-    Adoption adoption = Adoption(DeployedAddresses.Adoption());
+    Subscription adoption = Subscription(DeployedAddresses.Adoption());
 
     // Testing the adopt() function
     function testUserCanAdoptPet() public {

@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "name": "Apple",
+    "picture": "images/track-weight.jpg",
+    //"age": 33,
+    //"dataType": "Heart rate",
+    "location": "Cupertino, USA"
+  },
+  {
+    "id": 1,
+    "name": "Facebook",
+    "picture": "images/track-weight.jpg",
+    //"age": 25,
+    //"dataType": "Weight",
+    "location": "Silicon Valley, USA"
+  }
+]
