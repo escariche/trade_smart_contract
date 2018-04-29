@@ -17,7 +17,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body><script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.23.1'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-push-2">
@@ -26,13 +29,9 @@
           <br/>
         </div>
       </div>
-
-      <button class="btn btn-default btn-clients" type="button">Show clients</button><br/>
-
-      <div id="clientRow" class="row">
-          <!-- client LOADS HERE -->
+      <div id="producers">
+          <button class="btn btn-default btn-prod" type="button">Show addresses</button>
       </div>
-
       <div id="companiesRow" class="row">
         <!-- USERS LOAD HERE -->
       </div>
@@ -40,31 +39,21 @@
 
     <div id="companyTemplate" style="display: none;">
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="panel panel-default panel-company" id="panel-company">
+        <div class="panel panel-default panel-company">
           <div class="panel-heading">
             <h3 class="panel-title">Tom</h3>
           </div>
           <div class="panel-body">
             <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="images/track-heart.jpg" data-holder-rendered="true">
             <br/><br/>
-            <strong>Public Address</strong>: <span class="company-address">0x0</span><br/>
+            <strong>Type of data</strong>: <span class="company-data-type">Heart rate</span><br/>
+            <strong>Age</strong>: <span class="company-age">22</span><br/>
             <strong>Location</strong>: <span class="company-location">Madrid, Spain</span><br/><br/>
-            <button class="btn btn-default btn-subs" type="button" data-id="0" >Subscribe</button>
+            <button class="btn btn-default btn-subs" type="button" data-id="0">Subscribe</button>
             <button class="btn btn-danger btn-cancel" type="button" data-id="0" disabled="true">Cancel</button>
           </div>
         </div>
       </div>
-    </div>
-
-    <div id="clientTemplate" style="display: none;">
-        <div class="col-sm-6 col-md-4 col-lg-8">
-            <div class="panel panel-default panel-client">
-                <div class="panel-body">
-                    <strong>My clients</strong>: <br/>
-                      <span class="client-value"></span><br/>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

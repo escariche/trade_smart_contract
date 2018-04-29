@@ -1,4 +1,4 @@
-App = {
+App_companies = {
     web3Provider: null,
     contracts: {},
 
@@ -21,20 +21,20 @@ App = {
             }
         });
 
-        return App.initWeb3();
+        return App_companies.initWeb3();
     },
 
     initWeb3: function() {
         // Is there an injected web3 instance?
         if (typeof web3 !== 'undefined') {
-            App.web3Provider = web3.currentProvider;
+            App_companies.web3Provider = web3.currentProvider;
         } else {
             // If no injected web3 instance is detected, fall back to Ganache
-            App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+            App_companies.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
         }
-        web3 = new Web3(App.web3Provider);
+        web3 = new Web3(App_companies.web3Provider);
 
-        return App.initContract();
+        return App_companies.initContract();
     },
 
     initContract: function() {
@@ -42,28 +42,28 @@ App = {
         $.getJSON('Subscription.json', function(data) {
             // Get the necessary contract artifact file and instantiate it with truffle-contract
             var SubscriptionArtifact = data;
-            App.contracts.Subscription = TruffleContract(SubscriptionArtifact);
+            App_companies.contracts.Subscription = TruffleContract(SubscriptionArtifact);
 
             // Set the provider for our contract
-            App.contracts.Subscription.setProvider(App.web3Provider);
+            App_companies.contracts.Subscription.setProvider(App_companies.web3Provider);
 
             // Use our contract to retrieve and mark the subscribed users
-            return App.markSubscribed();
+            return App_companies.markSubscribed();
         });
 
-        return App.bindEvents();
+        return App_companies.bindEvents();
     },
 
     bindEvents: function() {
-        $(document).on('click', '.btn-subs', App.handleSubscription);
-        $(document).on('click', '.btn-cancel', App.handleUnsubscription);
-        $(document).on('click', '.btn-prod', App.handleProducers);
+        $(document).on('click', '.btn-subs', App_companies.handleSubscription);
+        $(document).on('click', '.btn-cancel', App_companies.handleUnsubscription);
+        $(document).on('click', '.btn-prod', App_companies.handleProducers);
     },
 
     markSubscribed: function(producers, account) {
         var subscriptionInstance;
 
-        App.contracts.Subscription.deployed().then(function(instance) {
+        App_companies.contracts.Subscription.deployed().then(function(instance) {
             subscriptionInstance = instance;
 
             return subscriptionInstance.getProducers.call();
@@ -82,7 +82,7 @@ App = {
     markUnsubscribed: function(producers, account) {
         var subscriptionInstance;
 
-        App.contracts.Subscription.deployed().then(function(instance) {
+        App_companies.contracts.Subscription.deployed().then(function(instance) {
             subscriptionInstance = instance;
 
             return subscriptionInstance.getProducers.call();
@@ -114,7 +114,7 @@ App = {
             var account = accounts[0];
             console.log("This is my account[0]: " + account);
 
-            App.contracts.Subscription.deployed().then(function(instance) {
+            App_companies.contracts.Subscription.deployed().then(function(instance) {
                 subscriptionInstance = instance;
 
                 // Execute subscribe as a transaction by sending account
@@ -122,7 +122,7 @@ App = {
             }).then(function(result) {
                 console.log("Result of subscription: " + result);
                 $.post('http://ec2-13-59-190-223.us-east-2.compute.amazonaws.com:3000/inbox/subscription' + account +"FROM"+ userId , {});
-                return App.markSubscribed();
+                return App_companies.markSubscribed();
             }).catch(function(err) {
                 console.log(err.message);
             });
@@ -144,7 +144,7 @@ App = {
             var account = accounts[0];
             console.log("This is my account[0]: " + account);
 
-            App.contracts.Subscription.deployed().then(function(instance) {
+            App_companies.contracts.Subscription.deployed().then(function(instance) {
                 subscriptionInstance = instance;
 
                 // Execute unsubscribe as a transaction by sending account
@@ -153,7 +153,7 @@ App = {
             }).then(function(result) {
                 console.log("Result of unsubscription: " + result);
                 $.post('http://ec2-13-59-190-223.us-east-2.compute.amazonaws.com:3000/inbox/unsubscription' + account +"FROM"+ userId , {});
-                return App.markUnsubscribed();
+                return App_companies.markUnsubscribed();
             }).catch(function(err) {
                 console.log(err.message);
             });
@@ -176,7 +176,7 @@ App = {
                 console.log(i + ": " +  accounts[i] + '\n');
             }
 
-            App.contracts.Subscription.deployed().then(function(instance) {
+            App_companies.contracts.Subscription.deployed().then(function(instance) {
                 subscriptionInstance = instance;
                 // Execute unsubscribe as a transaction by sending account
                 return subscriptionInstance.getProducers();
@@ -192,7 +192,7 @@ App = {
 
 $(function() {
     $(window).load(function() {
-        console.log("App.init()");
-        App.init();
+        console.log("App_companies.init()");
+        App_companies.init();
     });
 });

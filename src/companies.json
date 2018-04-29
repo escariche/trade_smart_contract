@@ -2,17 +2,15 @@
   {
     "id": 0,
     "name": "Apple",
-    "picture": "images/track-weight.jpg",
-    //"age": 33,
-    //"dataType": "Heart rate",
-    "location": "Cupertino, USA"
+    "picture": "https://www.logodesignlove.com/images/classic/apple-logo-rob-janoff-01.jpg",
+    "location": "Cupertino, USA",
+    "eth_account": "0xf17f52151EbEF6C7334FAD080c5704D77216b732"
   },
   {
     "id": 1,
     "name": "Facebook",
-    "picture": "images/track-weight.jpg",
-    //"age": 25,
-    //"dataType": "Weight",
-    "location": "Silicon Valley, USA"
+    "picture": "https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png",
+    "location": "Silicon Valley, USA",
+    "eth_account": "0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef"
   }
 ]
