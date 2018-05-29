@@ -66,3 +66,122 @@ code {
   height: 16px;
   margin-right: 10px;
 }
+
+
+.listContainer{
+  font-size: 16px;
+
+  padding: 0px 20px 0px 20px;
+&:first-child {
+   border-left: solid 1px #fff;
+ }
+
+border-right: solid 1px #fff;
+text-align: left;
+}
+.ulFooter {
+  list-style-type: none;
+  text-align: left;
+  margin: 0;
+  -webkit-app-region: #fff;
+  padding: 0;
+}
+
+.ulFooter > li > a{
+  color: #fff;
+}
+
+
+
+#Footer{
+  bottom: 0;
+  width: 100vw;
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: 1000;
+  padding: 30px 0;
+  background: #0c1a2b;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 50px;
+}
+
+.block {
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+
+
+  color: black;
+  background: none;
+  text-shadow: 0 1px white;
+  text-align: center;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: gray;
+  box-shadow: 1px 1px 9px 0px #0c1a2b;
+
+  padding: 10.5px;
+  margin: 0 0 11px;
+  font-size: 15px;
+  line-height: 1.42857;
+  word-break: break-all;
+  word-wrap: break-word;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.agentPanel {
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  color: black;
+  background: #bacce2;
+  text-align: center;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  box-shadow: 1px 1px 1px 0px #0c1a2b;
+
+  padding: 10px;
+  font-size: 15px;
+  word-break: break-all;
+  word-wrap: break-word;
+  border-radius: 4px;
+}.title{
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  color: white;
+  background: #0c1a2b;
+  text-align: center;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  box-shadow: 1px 1px 1px 0px #0c1a2b;
+
+  padding: 10px;
+  font-size: 15px;
+  word-break: break-all;
+  word-wrap: break-word;
+  border-radius: 4px;
+}
+
+ .btn{
+   color: green;
+
+ }

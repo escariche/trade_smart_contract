@@ -1,94 +1,214 @@
 import React, { Component } from 'react'
-import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
-import getWeb3 from './utils/getWeb3'
+//import { Router } from 'react-router-dom'
+//import DataMarketContract from '../build/contracts/DataMarket.json'
+import dataMarket from './utils/dataMarket'
+//import getWeb3 from './utils/getWeb3'
+import web3 from './utils/web3'
+import Header from './components/Header'
+import InfoPanel from './components/InfoPanel'
+import ContextPanel from './components/ContextPanel'
+import Footer from './components/Footer'
+import rolesPath from './rolesPath'
+
+import OwnerView from './views/owner/index'
+import UndefinedView from './views/undefined/index'
+import UserView from './views/user/index'
+import CompanyView from './views/company/index'
 
 import './css/oswald.css'
 import './css/open-sans.css'
 import './css/pure-min.css'
 import './App.css'
 
+
+
 class App extends Component {
-  constructor(props) {
-    super(props)
 
-    this.state = {
-      storageValue: 0,
-      web3: null
+    constructor(props) {
+        super(props)
+        this.state = {
+            isLoading: true,
+            error: null,
+            results: {
+                role: -1,
+                account: null,
+                owner: null,
+                contract: null
+            },
+            currentView: '',
+        }
+        this.updateAccount = this.updateAccount.bind(this)
+        this.updateRole = this.updateRole.bind(this)
+        this.updateOwner = this.updateOwner.bind(this)
+        this.getOwner = this.getOwner.bind(this)
+        this.updateContract= this.updateContract.bind(this)
+        this.setView = this.setView.bind(this)
+        this.renderView = this.renderView.bind(this)
     }
-  }
 
-  componentWillMount() {
-    // Get network provider and web3 instance.
-    // See utils/getWeb3 for more info.
+    componentDidMount() {
+        let component = this;
 
-    getWeb3
-    .then(results => {
-      this.setState({
-        web3: results.web3
-      })
+        this.setState({isLoading: true})
 
-      // Instantiate contract once web3 provided.
-      this.instantiateContract()
-    })
-    .catch(() => {
-      console.log('Error finding web3.')
-    })
-  }
+        web3.eth.getAccounts(function(error, result) {
+            if(error) {
+                component.setState({isLoading: false, error: error})
+                console.log('Error', error)
+            }
+            //console.log('Account', result[0])
+            component.updateAccount(result[0])
 
-  instantiateContract() {
-    /*
-     * SMART CONTRACT EXAMPLE
-     *
-     * Normally these functions would be called in the context of a
-     * state management library, but for convenience I've placed them here.
-     */
+            dataMarket.then(contract => {
+                component.updateContract(contract.address)
+                component.getOwner(contract, result[0])
+                return contract.getMyRole({from:result[0]})
+            }).then(role => {
+                component.updateRole(role.valueOf())
+            })
+        })
+    }
 
-    const contract = require('truffle-contract')
-    const simpleStorage = contract(SimpleStorageContract)
-    simpleStorage.setProvider(this.state.web3.currentProvider)
+    getOwner(_contract, _sender){
+        //console.log('getOwner Params ', _contract, _sender.toString())
+        _contract.superUser.call().then(owner => {
+            //console.log('getOwner ', owner)
+            return this.updateOwner(owner)
+        })
+    }
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    var simpleStorageInstance
+    updateAccount(_account){
+        this.setState({isLoading: false})
+        this.setState(function(prevState) {
+            return {
+                results: {
+                    ...prevState.results,
+                    account: _account,
+                }
+            }
+        });
+    }
 
-    // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      simpleStorage.deployed().then((instance) => {
-        simpleStorageInstance = instance
+    updateRole(_role){
+        console.log('update role was called', _role)
+        this.setState({isLoading: false})
+        this.setState(function(prevState)  {
+            return {
+                results: {
+                    ...prevState.results,
+                    role: _role,
+                }
+            }
+        })
+        this.setView(rolesPath[_role].toString())
+    }
 
-        // Stores a given value, 5 by default.
-        return simpleStorageInstance.set(5, {from: accounts[0]})
-      }).then((result) => {
-        // Get the value from the contract to prove it worked.
-        return simpleStorageInstance.get.call(accounts[0])
-      }).then((result) => {
-        // Update state with the result.
-        return this.setState({ storageValue: result.c[0] })
-      })
-    })
-  }
+    updateOwner(_owner){
+        this.setState({isLoading: false})
+        this.setState(function(prevState)  {
+            return {
+                results: {
+                    ...prevState.results,
+                    owner: _owner,
+                }
+            }
+        });
+    }
 
-  render() {
-    return (
-      <div className="App">
-        <nav className="navbar pure-menu pure-menu-horizontal">
-            <a href="#" className="pure-menu-heading pure-menu-link">Truffle Box</a>
-        </nav>
+    updateContract(_contract){
+        this.setState({isLoading: false})
+        this.setState(function(prevState)  {
+            return {
+                results: {
+                    ...prevState.results,
+                    contract: _contract,
+                }
+            }
+        })
+    }
 
-        <main className="container">
-          <div className="pure-g">
-            <div className="pure-u-1-1">
-              <h1>Good to Go!</h1>
-              <p>Your Truffle Box is installed and ready.</p>
-              <h2>Smart Contract Example</h2>
-              <p>If your contracts compiled and migrated successfully, below will show a stored value of 5 (by default).</p>
-              <p>Try changing the value stored on <strong>line 59</strong> of App.js.</p>
-              <p>The stored value is: {this.state.storageValue}</p>
+    setView(nextView){
+        console.log('Next View: ', nextView)
+        this.setState({currentView: nextView})
+    }
+
+    renderView(){
+        //console.log('Render View', this.state.currentView)
+        switch(this.state.currentView) {
+            case 'undefined':
+                return <UndefinedView
+                    contractAddress={this.state.results.contract}
+                    currentAccount={this.state.results.account}
+                    currentRole={this.state.results.role}
+                    modifyRole={(newRole) => {this.updateRole(newRole)}}
+                    //modifiewView={(view)=>{this.setState({currentView: view})}}
+                    //currentView={this.state.currentView}
+                />
+                break
+            case 'user':
+                return <UserView
+                    currentAccount={this.state.results.account}
+                    currentRole={this.state.results.role}
+                    modifyRole={(newRole) => {this.updateRole(newRole)}}
+                />
+                break
+            case 'company':
+                return <CompanyView
+                    currentAccount={this.state.results.account}
+                    currentRole={this.state.results.role}
+                    modifyRole={(newRole) => {this.updateRole(newRole)}}
+                />
+                break
+            case 'owner':
+                return <OwnerView />
+                break
+            default:
+                return <p>Not found</p>
+                break
+        }
+    }
+
+    render() {
+        //console.log(this.state)
+        return (
+            <div className="App">
+                <Header
+                    currentRole={this.state.results.role}
+                />
+                <main className="container">
+                    <div className="pure-g">
+                        <div className="pure-u-1-1">
+                            <h1>Welcome to trad(e)</h1>
+                            <div className="language">
+
+                                <InfoPanel error={this.state.error}
+                                           isLoading={this.state.isLoading}
+                                           results={this.state.results}
+                                           account={this.state.results.account}
+                                           role={this.state.results.role}/>
+                            </div>
+
+
+                            <div>
+                                { this.renderView() }
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <Footer owner={this.state.results.owner} contract={this.state.results.contract}/>
             </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
+        );
+    }
 }
+
+/*
+                return <UndefinedView name={this.state.name} age='76' changeView={ (newName) => this.setState({name: newName})} />
+
+<div onClick={() => this.setView('A')}>Hello A</div>
+                            <div onClick={() => this.setView('B')}>Hello B</div>
+                            <div onClick={() => this.setView('C')}>Hello C</div>
+
+ */
+
 
 export default App
