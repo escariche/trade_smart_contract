@@ -5,7 +5,6 @@ import web3 from './web3'
 const contract = require('truffle-contract')
 const dataMarket = contract(DataMarketContract)
 
-
 dataMarket.setProvider(web3.currentProvider)
 //dataMarket.defaults({ from : web3.eth.accounts[0] })
 

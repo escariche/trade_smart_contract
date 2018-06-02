@@ -84,10 +84,10 @@ class UndefinedView extends Component {
     render () {
         return(
             <div>
-                <div>
+                <div className={'block'}>
                     <p>Choose your role: </p>
-                    <div className='block' onClick={() => this.becomeUser()}> <p>Become user</p></div>
-                    <div className='block' onClick={() => this.becomeCompany()}> <p>Become company</p></div>
+                    <div className='btn btn-default' onClick={() => this.becomeUser()}> <p>Become user</p></div>
+                    <div className='btn btn-default' onClick={() => this.becomeCompany()}> <p>Become company</p></div>
                 </div>
             </div>
         )

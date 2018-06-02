@@ -17,7 +17,7 @@ contract DataMarket {
     //Owner of the Smart Contract
     address owner;
     //Hardcoded ethereum account used for testing UI of dapp
-    address public superUser = 0xbBF289D846208c16EDc8474705C748aff07732dB;
+    address public superUser = 0x0c0889Af5D699e8596775b30b9AE15B61F488441;
     //Historic of candidates user or companies. Array so that we can return them.
     address[] public userCandidates;
     address[] public companyCandidates;
@@ -60,7 +60,7 @@ _;
 //Adding a new user to the MarketPlace
 //function addUser(address newUser) public{
 function addUser() public{
-require(!companies[msg.sender] && !users[msg.sender]);
+assert(!companies[msg.sender] && !users[msg.sender]);
 users[msg.sender] = true;
 userCandidates.push(msg.sender) -1;
 }
@@ -73,7 +73,7 @@ users[msg.sender] = false;
 //Adding a new company to the MarketPlace
 //function addCompany(address newCompany) public{
 function addCompany() public{
-require(!companies[msg.sender] && !users[msg.sender] );
+assert(!companies[msg.sender] && !users[msg.sender] );
 companies[msg.sender] = true;
 companyCandidates.push(msg.sender) -1;
 }

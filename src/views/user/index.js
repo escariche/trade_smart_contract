@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import DataMarketContract from '../../../build/contracts/DataMarket.json';
-//import ContextPanel from '../../components/ContextPanel'
+import Card from '../../components/Card'
 import dataMarket from "../../utils/dataMarket";
 //import web3 from "../../utils/web3";
 import '../../App.css'
@@ -27,6 +27,8 @@ class UserView extends Component {
         this.checkClients = this.checkClients.bind(this)
         this.checkRole = this.checkRole.bind(this)
         this.logOut = this.logOut.bind(this)
+        this.subscribe = this.subscribe.bind(this)
+        this.unsubscribe = this.unsubscribe.bind(this)
     }
 
     componentDidMount() {
@@ -94,20 +96,32 @@ class UserView extends Component {
         var toRender = []
         for ( var i in this.state.results.companies.list) {
             toRender.push(
-                <p key={i} className={'agentPanel'}>
-                    {this.state.results.companies.list[i]}
-                </p>)
+                <Card
+                    key={i}
+                    currentRole={this.props.currentRole}
+                    currentAccount={this.props.currentAccount}
+                    address={this.state.results.companies.list[i]}
+                    subscribe={(companyAddress) => {this.subscribe(companyAddress)}}
+                    unSubscribe={(companyAddress) => {this.unsubscribe(companyAddress)}}
+                    postData={(_content) => {this.postData(_content)}}
+                />)
         }
         return toRender
     }
 
-    logOut(){
-        this.setState({isLoading: true})
+    subscribe(companyAddress){
         dataMarket.then(contract => {
-            return contract.removeUser({from:this.props.currentAccount})
+            return contract.setSubs(companyAddress, {from: this.props.currentAccount})
         }).then(result => {
-            console.log(result)
-            this.checkRole()
+            console.log('Result of subscription', result)
+        })
+    }
+
+    unsubscribe(companyAddress){
+        dataMarket.then(contract => {
+            return contract.cancelSubs(companyAddress, {from: this.props.currentAccount})
+        }).then(result => {
+            console.log('Result of unsubscription', result)
         })
     }
 
@@ -120,33 +134,46 @@ class UserView extends Component {
         })
     }
 
+    logOut(){
+        this.setState({isLoading: true})
+        dataMarket.then(contract => {
+            return contract.removeUser({from:this.props.currentAccount})
+        }).then(result => {
+            console.log(result)
+            this.checkRole()
+        })
+    }
+
+    postData(_content){
+        console.log('Data to post: ', _content)
+    }
+
     render() {
         return(
-            <div>
                 <div className="block">
                     COMPANIES
                     <div>
                         { this.state.error != null && <p> Error: {this.state.error }</p>}
-                        {this.state.results.companies != null && <p>Total: {this.state.results.companies.total}</p>}
                         {this.state.results.companies === null ? <p> No companies to show </p> :
                             this.state.results.companies.total === 0 ? <p>No companies for now</p>:
-                                <div>Companies available:
-                                    <ul>
+                                <div>
+                                    <p>Companies available:</p>
+                                    <div className={'panel-default'}>
                                         {this.listCompanies()}
-                                    </ul>
+                                    </div>
                                 </div>}
                         {this.state.results.clients === null ? <p> No clients to show </p> :
                             this.state.results.clients.length === 0 ? <p>No clients for now</p>:
                                 <div>My Clients:
-                                    <ul>
+                                    <div className={'panel-default'}>
                                         {this.listClients()}
-                                    </ul>
+                                    </div>
                                 </div>}
+                        {this.state.results.companies != null && <p>Total companies on trad(e): {this.state.results.companies.total}</p>}
                     </div>
+                <div className='btn btn-danger' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
                 </div>
-                <div className='block' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
 
-            </div>
         )
     }
 

@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-//import { Router } from 'react-router-dom'
-//import DataMarketContract from '../build/contracts/DataMarket.json'
 import dataMarket from './utils/dataMarket'
-//import getWeb3 from './utils/getWeb3'
+/*
+import { Router } from 'react-router-dom'
+import DataMarketContract from '../build/contracts/DataMarket.json'
+import getWeb3 from './utils/getWeb3'
+import ContextPanel from './components/ContextPanel'
+*/
 import web3 from './utils/web3'
 import Header from './components/Header'
 import InfoPanel from './components/InfoPanel'
-import ContextPanel from './components/ContextPanel'
 import Footer from './components/Footer'
 import rolesPath from './rolesPath'
 
@@ -144,27 +146,27 @@ class App extends Component {
                     //modifiewView={(view)=>{this.setState({currentView: view})}}
                     //currentView={this.state.currentView}
                 />
-                break
+                //break
             case 'user':
                 return <UserView
                     currentAccount={this.state.results.account}
                     currentRole={this.state.results.role}
                     modifyRole={(newRole) => {this.updateRole(newRole)}}
                 />
-                break
+                //break
             case 'company':
                 return <CompanyView
                     currentAccount={this.state.results.account}
                     currentRole={this.state.results.role}
                     modifyRole={(newRole) => {this.updateRole(newRole)}}
                 />
-                break
+                //break
             case 'owner':
                 return <OwnerView />
-                break
+                //break
             default:
                 return <p>Not found</p>
-                break
+                //break
         }
     }
 
@@ -173,20 +175,17 @@ class App extends Component {
         return (
             <div className="App">
                 <Header
+                    className={'text-center'}
                     currentRole={this.state.results.role}
                 />
-                <main className="container">
+                <main className="">
                     <div className="pure-g">
                         <div className="pure-u-1-1">
-                            <h1>Welcome to trad(e)</h1>
-                            <div className="language">
-
-                                <InfoPanel error={this.state.error}
-                                           isLoading={this.state.isLoading}
-                                           results={this.state.results}
-                                           account={this.state.results.account}
-                                           role={this.state.results.role}/>
-                            </div>
+                            <InfoPanel error={this.state.error}
+                                       isLoading={this.state.isLoading}
+                                       results={this.state.results}
+                                       account={this.state.results.account}
+                                       role={this.state.results.role}/>
 
 
                             <div>

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 //import DataMarketContract from '../../../build/contracts/DataMarket.json';
 //import getWeb3 from '../../utils/getWeb3';
 //import ContextPanel from '../../components/ContextPanel'
-import dataMarket from "../../utils/dataMarket";
 //import web3 from "../../utils/web3";
+import dataMarket from "../../utils/dataMarket";
+import Card from '../../components/Card'
 import '../../App.css'
 
 class CompanyView extends Component {
@@ -24,9 +25,10 @@ class CompanyView extends Component {
         this.updateUsers = this.updateUsers.bind(this)
         this.listUsers = this.listUsers.bind(this)
         this.logOut = this.logOut.bind(this)
+        this.retrieveData = this.retrieveData.bind(this)
     }
 
-    componentDidMount() {
+    componentDidMount()  {
         let component = this;
 
         this.setState({isLoading: true})
@@ -57,9 +59,13 @@ class CompanyView extends Component {
         var toRender = []
         for (var i in this.state.results.users.list){
             toRender.push(
-                <p key={i} className='agentPanel'>
-                    {this.state.results.users.list[i]}
-                </p>
+                <Card
+                    key={i}
+                    currentRole={this.props.currentRole}
+                    currentAccount={this.props.currentAccount}
+                    address={this.state.results.users.list[i]}
+                    retrieveData={(_address) => {this.retrieveData(_address)}}
+                />
             )
         }
         return toRender
@@ -84,31 +90,34 @@ class CompanyView extends Component {
         })
     }
 
+    retrieveData(_address){
+        console.log('Retrieve data from: ', _address)
+    }
+
     render() {
         return(
-            <div>
-                <div className='block'>
-                    USERS
-                    <div>
-                        { this.state.error != null && <p> Error: {this.state.error }</p>}
-                        {this.state.results.users != null && <p>Total: {this.state.results.users.total}</p>}
-                        {this.state.results.users === null ? <p> No users to show </p> :
-                            this.state.results.users.total === 0 ? <p>No users for now</p>:
-                                <div>Users available:
-                                    <ul>
-                                        {this.listUsers()}
-                                    </ul>
-                                </div>}
-                        {this.state.results.suppliers === null ? <p> No suppliers to show </p> :
-                            this.state.results.suppliers.length === 0 ? <p>No suppliers for now</p>:
-                                <div>My suppliers:
-                                    <ul>
-                                        {this.listSuppliers()}
-                                    </ul>
-                                </div>}
-                    </div>
+            <div className='block'>
+                USERS
+                <div>
+                    { this.state.error != null && <p> Error: {this.state.error}</p>}
+                    {this.state.results.users === null ? <p> No users to show </p> :
+                        this.state.results.users.total === 0 ? <p>No users for now</p>:
+                            <div>
+                                <p>Users available:</p>
+                                <div className={'panel-default'}>
+                                    {this.listUsers()}
+                                </div>
+                            </div>}
+                    {this.state.results.suppliers === null ? <p> No suppliers to show </p> :
+                        this.state.results.suppliers.length === 0 ? <p>No suppliers for now</p>:
+                            <div>My suppliers:
+                                <div className={'panel-default'}>
+                                    {this.listSuppliers()}
+                                </div>
+                            </div>}
+                    {this.state.results.users != null && <p>Total users on trad(e): {this.state.results.users.total}</p>}
                 </div>
-                <div className='block' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
+                <div className='btn btn-danger' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
             </div>
         )
     }
