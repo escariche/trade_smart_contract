@@ -190,3 +190,15 @@ text-align: left;
     height: 100%;
     margin: 0 auto; /* the bottom margin is the negative value of the footer's height */
 }
+
+greenCheck{
+    color: green
+}
+
+redCheck{
+    color: red
+}
+
+svg {
+    fill: currentColor;
+}

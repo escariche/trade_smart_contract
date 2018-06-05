@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import axios from 'axios'
+
 //import DataMarketContract from '../../../build/contracts/DataMarket.json';
 //import getWeb3 from '../../utils/getWeb3';
 //import ContextPanel from '../../components/ContextPanel'
@@ -92,6 +94,19 @@ class CompanyView extends Component {
 
     retrieveData(_address){
         console.log('Retrieve data from: ', _address)
+        const topicURL = 'http://ec2-18-219-179-167.us-east-2.compute.amazonaws.com:3000/' + _address
+        axios.get(topicURL).then(response => {
+                console.log('Repsonse - Retrieve data from: ', response)
+                if (response.status === 200){
+                    console.log(response.data)
+                    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(response.data));
+                    var dlAnchorElem = document.getElementById('downloadBtn');
+                    dlAnchorElem.setAttribute("href",     dataStr);
+                    dlAnchorElem.setAttribute("download", response.data.topic + ".json");
+                    dlAnchorElem.click();
+                }
+            }
+        )
     }
 
     render() {

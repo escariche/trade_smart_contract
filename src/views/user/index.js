@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import axios from 'axios'
+
 //import DataMarketContract from '../../../build/contracts/DataMarket.json';
 import Card from '../../components/Card'
 import dataMarket from "../../utils/dataMarket";
@@ -97,7 +99,7 @@ class UserView extends Component {
         for ( var i in this.state.results.companies.list) {
             toRender.push(
                 <Card
-                    key={i}
+                    cardKey={i}
                     currentRole={this.props.currentRole}
                     currentAccount={this.props.currentAccount}
                     address={this.state.results.companies.list[i]}
@@ -146,33 +148,50 @@ class UserView extends Component {
 
     postData(_content){
         console.log('Data to post: ', _content)
+        const topicURL = 'http://ec2-18-219-179-167.us-east-2.compute.amazonaws.com:3000/'
+        const topicName = this.props.currentAccount
+        let data = JSON.stringify(
+            {topic: topicName,
+                value: _content}
+        )
+        console.log('Data to post json :', data)
+        const _data = {topic : topicName,
+            value: _content
+        }
+        axios.post(topicURL,_data).then(response =>{
+                console.log('Repsonse - Retrieve data from: ', response)
+                if(response.status === 200){
+                    alert('Your data was successfully posted to your subscriber!')
+                }
+            }
+        )
     }
 
     render() {
         return(
-                <div className="block">
-                    COMPANIES
-                    <div>
-                        { this.state.error != null && <p> Error: {this.state.error }</p>}
-                        {this.state.results.companies === null ? <p> No companies to show </p> :
-                            this.state.results.companies.total === 0 ? <p>No companies for now</p>:
-                                <div>
-                                    <p>Companies available:</p>
-                                    <div className={'panel-default'}>
-                                        {this.listCompanies()}
-                                    </div>
-                                </div>}
-                        {this.state.results.clients === null ? <p> No clients to show </p> :
-                            this.state.results.clients.length === 0 ? <p>No clients for now</p>:
-                                <div>My Clients:
-                                    <div className={'panel-default'}>
-                                        {this.listClients()}
-                                    </div>
-                                </div>}
-                        {this.state.results.companies != null && <p>Total companies on trad(e): {this.state.results.companies.total}</p>}
-                    </div>
-                <div className='btn btn-danger' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
+            <div className="block">
+                COMPANIES
+                <div>
+                    { this.state.error != null && <p> Error: {this.state.error }</p>}
+                    {this.state.results.companies === null ? <p> No companies to show </p> :
+                        this.state.results.companies.total === 0 ? <p>No companies for now</p>:
+                            <div>
+                                <p>Companies available:</p>
+                                <div className={'panel-default'}>
+                                    {this.listCompanies()}
+                                </div>
+                            </div>}
+                    {this.state.results.clients === null ? <p> No clients to show </p> :
+                        this.state.results.clients.length === 0 ? <p>No clients for now</p>:
+                            <div>My Clients:
+                                <div className={'panel-default'}>
+                                    {this.listClients()}
+                                </div>
+                            </div>}
+                    {this.state.results.companies != null && <p>Total companies on trad(e): {this.state.results.companies.total}</p>}
                 </div>
+                <div className='btn btn-danger' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
+            </div>
 
         )
     }
