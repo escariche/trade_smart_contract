@@ -42,9 +42,22 @@ class UserView extends Component {
             console.log('Contract', contract)
             return contract.getAllCompanies.call({from:this.props.currentAccount})
         }).then(companies => {
-            console.log('contract.getAllCompanies.call()', companies)
-            this.updateCompanies(companies)
-            this.checkClients(companies)
+            console.log('contract.getAllCompanies.call() with duplicates', companies)
+            //check for duplicates
+            var i,
+                len = companies.length,
+                companiesNoDuplicates = [],
+                obj = {};
+            for (i=0; i<len; i++){
+                obj[companies[i]]=0;
+            }
+            for (i in obj) {
+                companiesNoDuplicates.push(i);
+            }
+            console.log('contract.getAllCompanies.call() without duplicates', companiesNoDuplicates)
+
+            this.updateCompanies(companiesNoDuplicates)
+            this.checkClients(companiesNoDuplicates)
         })
         //console.log('App DM', dataMarket)
 
@@ -99,6 +112,7 @@ class UserView extends Component {
         for ( var i in this.state.results.companies.list) {
             toRender.push(
                 <Card
+                    key={i}
                     cardKey={i}
                     currentRole={this.props.currentRole}
                     currentAccount={this.props.currentAccount}
@@ -169,30 +183,18 @@ class UserView extends Component {
 
     render() {
         return(
-            <div className="block">
-                COMPANIES
-                <div>
+            <div className="container-fluid">
+                <p>COMPANIES</p>
+                <div className={'row'}>
                     { this.state.error != null && <p> Error: {this.state.error }</p>}
                     {this.state.results.companies === null ? <p> No companies to show </p> :
                         this.state.results.companies.total === 0 ? <p>No companies for now</p>:
-                            <div>
-                                <p>Companies available:</p>
-                                <div className={'panel-default'}>
-                                    {this.listCompanies()}
-                                </div>
-                            </div>}
-                    {this.state.results.clients === null ? <p> No clients to show </p> :
-                        this.state.results.clients.length === 0 ? <p>No clients for now</p>:
-                            <div>My Clients:
-                                <div className={'panel-default'}>
-                                    {this.listClients()}
-                                </div>
-                            </div>}
-                    {this.state.results.companies != null && <p>Total companies on trad(e): {this.state.results.companies.total}</p>}
+                            this.listCompanies()
+                    }
                 </div>
+                {this.state.results.companies != null && <p>Total companies on trad(e): {this.state.results.companies.total}</p>}
                 <div className='btn btn-danger' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
             </div>
-
         )
     }
 

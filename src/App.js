@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
+
 import dataMarket from './utils/dataMarket'
+import web3 from './utils/web3'
 /*
 import { Router } from 'react-router-dom'
-import DataMarketContract from '../build/contracts/DataMarket.json'
 import getWeb3 from './utils/getWeb3'
 import ContextPanel from './components/ContextPanel'
 */
-import web3 from './utils/web3'
+
 import Header from './components/Header'
 import InfoPanel from './components/InfoPanel'
 import Footer from './components/Footer'
@@ -92,6 +93,13 @@ class App extends Component {
     }
 
     updateRole(_role){
+        dataMarket.then(contract => {
+            return contract.getMyRole({from: this.state.results.account})
+        }).then(role => {
+            console.log('Contract called from updateROle', role.valueOf())
+        })
+
+
         console.log('update role was called', _role)
         this.setState({isLoading: false})
         this.setState(function(prevState)  {
@@ -132,6 +140,7 @@ class App extends Component {
     setView(nextView){
         console.log('Next View: ', nextView)
         this.setState({currentView: nextView})
+        this.renderView()
     }
 
     renderView(){
@@ -146,27 +155,27 @@ class App extends Component {
                     //modifiewView={(view)=>{this.setState({currentView: view})}}
                     //currentView={this.state.currentView}
                 />
-                //break
+            //break
             case 'user':
                 return <UserView
                     currentAccount={this.state.results.account}
                     currentRole={this.state.results.role}
                     modifyRole={(newRole) => {this.updateRole(newRole)}}
                 />
-                //break
+            //break
             case 'company':
                 return <CompanyView
                     currentAccount={this.state.results.account}
                     currentRole={this.state.results.role}
                     modifyRole={(newRole) => {this.updateRole(newRole)}}
                 />
-                //break
+            //break
             case 'owner':
                 return <OwnerView />
-                //break
+            //break
             default:
                 return <p>Not found</p>
-                //break
+            //break
         }
     }
 
@@ -175,22 +184,20 @@ class App extends Component {
         return (
             <div className="App">
                 <Header
-                    className={'text-center'}
                     currentRole={this.state.results.role}
                 />
-                <main className="">
-                    <div className="pure-g">
+                <main class>
+                    <div className={'jumbotron container-fluid pure'}>
+                        <InfoPanel error={this.state.error}
+                                   isLoading={this.state.isLoading}
+                                   results={this.state.results}
+                                   account={this.state.results.account}
+                                   role={this.state.results.role}/>
+
+                    </div>
+                    <div className="container-fluid jumbotron bg-3 text-center pure-g">
                         <div className="pure-u-1-1">
-                            <InfoPanel error={this.state.error}
-                                       isLoading={this.state.isLoading}
-                                       results={this.state.results}
-                                       account={this.state.results.account}
-                                       role={this.state.results.role}/>
-
-
-                            <div>
-                                { this.renderView() }
-                            </div>
+                            { this.renderView() }
                         </div>
                     </div>
                 </main>

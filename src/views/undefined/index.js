@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-/*
 import DataMarketContract from '../../../build/contracts/DataMarket.json';
+import web3 from "../../utils/web3";
+/*
 import getWeb3 from '../../utils/getWeb3';
 import ContextPanel from '../../components/ContextPanel'
-import web3 from "../../utils/web3";
 import App from '../../App'
 import rolesPath from "../../rolesPath";
 */
@@ -50,7 +50,9 @@ class UndefinedView extends Component {
             return contract.addUser({from: this.props.currentAccount})
         }).then(result => {
             console.log('adduser result', result)
-            this.checkRole()
+            if(result.receipt.status === 1){
+                this.checkRole()
+            }
         })
     }
 
@@ -64,7 +66,9 @@ class UndefinedView extends Component {
             return contract.addCompany({from: this.props.currentAccount})
         }).then(result => {
             console.log('addCompany result', result)
-            this.checkRole()
+            if(result.receipt.status === 1){
+                this.checkRole()
+            }
         })
     }
 
@@ -72,7 +76,6 @@ class UndefinedView extends Component {
         dataMarket.then(contract => {
             console.log('checkRole() - account', this.props.currentAccount)
             console.log('checkRole() - contract', contract)
-
             return contract.getMyRole({from: this.props.currentAccount})
         }).then(role => {
             console.log('Get my role', role)

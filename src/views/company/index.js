@@ -39,7 +39,20 @@ class CompanyView extends Component {
             console.log('Contract', contract)
             return contract.getAllUsers.call({from:this.props.currentAccount})
         }).then(users => {
-            component.updateUsers(users)
+            //check for duplicates
+            var i,
+                len = users.length,
+                usersNoDuplicates = [],
+                obj = {};
+            for (i=0; i<len; i++){
+                obj[users[i]]=0;
+            }
+            for (i in obj) {
+                usersNoDuplicates.push(i);
+            }
+            console.log('contract.getAllUsers.call() without duplicates', usersNoDuplicates)
+
+            component.updateUsers(usersNoDuplicates)
         })
     }
 
@@ -79,7 +92,10 @@ class CompanyView extends Component {
             return contract.removeCompany({from:this.props.currentAccount})
         }).then(result => {
             console.log(result)
-            this.checkRole()
+            if(result.receipt.status === 1){
+
+                this.checkRole()
+            }
         })
     }
 
@@ -111,25 +127,22 @@ class CompanyView extends Component {
 
     render() {
         return(
-            <div className='block'>
-                USERS
+            <div>
+                <p>USERS</p>
                 <div>
                     { this.state.error != null && <p> Error: {this.state.error}</p>}
                     {this.state.results.users === null ? <p> No users to show </p> :
                         this.state.results.users.total === 0 ? <p>No users for now</p>:
-                            <div>
-                                <p>Users available:</p>
-                                <div className={'panel-default'}>
-                                    {this.listUsers()}
-                                </div>
+                            <div className={'row'}>
+                                {this.listUsers()}
                             </div>}
-                    {this.state.results.suppliers === null ? <p> No suppliers to show </p> :
+                    {/*this.state.results.suppliers === null ? <p> No suppliers to show </p> :
                         this.state.results.suppliers.length === 0 ? <p>No suppliers for now</p>:
                             <div>My suppliers:
                                 <div className={'panel-default'}>
                                     {this.listSuppliers()}
                                 </div>
-                            </div>}
+                            </div>*/}
                     {this.state.results.users != null && <p>Total users on trad(e): {this.state.results.users.total}</p>}
                 </div>
                 <div className='btn btn-danger' onClick={() => this.logOut()}> <p>Stop enjoying trad(e)</p></div>
